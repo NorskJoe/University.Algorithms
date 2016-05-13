@@ -13,107 +13,70 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	Stack<Cell> stack = new Stack<Cell>();
 	Cell north, northEast, east, southEast, south,
 		southWest, west, northWest;
+	int row, col;
 	
 	@Override
 	public void generateMaze(Maze maze) {
 		Cell currentCell = null;
 		Cell nextCell = null;
 		
-		// neighbour index used to select nextCell
-		int neighbourIndex = -1;
-		
-		/*
-		 * Entering maze for the first time, set the current cell
-		 * to the entrance cell
-		 */
-		if(stack.isEmpty())
-		{
-			currentCell = maze.entrance;
-			stack.push(currentCell);
-		}
-		
-		// The entrance has already been visited
-		else
-		{
-			//currentCell = 
-		}
-		
-		// If the maze type is normal
-		if(maze.type == Maze.NORMAL)
-		{			
-			// Assign all nieghbours 
-			north = currentCell.neigh[Maze.NORTH];
-			east = currentCell.neigh[Maze.EAST];
-			south = currentCell.neigh[Maze.SOUTH];
-			west = currentCell.neigh[Maze.WEST];
-			
-			/*
-			 * Create an int array of the possible selections for
-			 * the next cell. 
-			 * NORTH = 2, EAST = 0, SOUTH = 5, WEST = 3
-			 */
-			int[] neighbours = {2, 0, 5, 3};
-						
-			// Randomly chooses a neighbouring cell to visit next
-			while(nextCell == null && nextCell != maze.exit)
-			{
-				//Randomly select a neighbour
-				Random rand = new Random();
-				neighbourIndex = rand.nextInt(neighbours.length);
-				nextCell = currentCell.neigh[neighbourIndex];
-			}
-		}// End of if normal maze
-		
-		else if(maze.type == Maze.HEX)
-		{
-			
-			// Assigns all neighbours	
-			north = currentCell.neigh[Maze.NORTH];
-			northEast = currentCell.neigh[Maze.NORTHEAST];
-			east = currentCell.neigh[Maze.EAST];
-			southEast = currentCell.neigh[Maze.SOUTHEAST];
-			south = currentCell.neigh[Maze.SOUTH];
-			southWest = currentCell.neigh[Maze.SOUTHWEST];
-			west = currentCell.neigh[Maze.WEST];
-			northWest = currentCell.neigh[Maze.NORTHWEST];
-			
-			/*
-			 * Create an int array of the possible selections for
-			 * the next cell. 
-			 * NORTH = 2, EAST = 0, SOUTH = 5, WEST = 3
-			 * NORTHEAST = 1, SOUTHEAST = 5, SOUTHWEST = 4, NORTHWEST = 2
-			 */
-			int[] neighbours = {2, 0, 5, 3, 1, 5, 4, 2};
-						
-			// Randomly chooses a neighbouring cell to visit next
-			while(nextCell == null && nextCell != maze.exit)
-			{
-				//Randomly select a neighbour
-				Random rand = new Random();
-				neighbourIndex = rand.nextInt(neighbours.length);
-				nextCell = currentCell.neigh[neighbourIndex];
-			}
-		}// End of if hex maze
+		// Creating boolean array to mark cells visited or unvisited
+		boolean[] cellVisitor = new boolean[maze.sizeC * maze.sizeR];
+		int[] neighbours;
 
-		
 		/*
-		 * Removes the wall between the current cell
-		 * and the chosen neighbour
+		 * Set the currentCell as the entrance to the maze
+		 * and push it to the stack
 		 */
-		currentCell.wall[neighbourIndex].present = false;
-		
-		
-		
-		/*		
-		for(int i = 0; i < maze.sizeR; i++)
+		currentCell = maze.entrance;
+		row = currentCell.r;
+		col = currentCell.c;
+		stack.push(currentCell);
+
+		/*
+		 * Main body of function.  Recursively visit all cells marking them as 
+		 * visited and carving a path
+		 */
+		do
 		{
-			for(int j = 0; j < maze.sizeC; j ++)
+			// Mark the currentCell as visited
+			cellVisitor[currentCell.c*maze.sizeR + currentCell.r] = true;
+			
+			// If the maze type is normal
+			if(maze.type == Maze.NORMAL)
+			{			
+				// Assign all nieghbours 
+				north = currentCell.neigh[Maze.NORTH];
+				east = currentCell.neigh[Maze.EAST];
+				south = currentCell.neigh[Maze.SOUTH];
+				west = currentCell.neigh[Maze.WEST];
+				
+			}// End of if normal maze
+			
+			else if(maze.type == Maze.HEX)
 			{
-				Cell cell = maze.map[i][j];
-				System.out.println(cell.r + " " + cell.c);
-			}
-		}*/
+				
+				// Assigns all neighbours	
+				north = currentCell.neigh[Maze.NORTH];
+				northEast = currentCell.neigh[Maze.NORTHEAST];
+				east = currentCell.neigh[Maze.EAST];
+				southEast = currentCell.neigh[Maze.SOUTHEAST];
+				south = currentCell.neigh[Maze.SOUTH];
+				southWest = currentCell.neigh[Maze.SOUTHWEST];
+				west = currentCell.neigh[Maze.WEST];
+				northWest = currentCell.neigh[Maze.NORTHWEST];
+				
+			}// End of if hex maze
+			
+			
+		}while(!stack.isEmpty());
 		
+		
+		
+		currentCell.wall[Maze.NORTH].present = false;
+		
+		
+
 		
 	
 		
