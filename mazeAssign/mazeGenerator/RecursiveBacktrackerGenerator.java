@@ -9,7 +9,7 @@ import maze.NormalMaze;
 
 public class RecursiveBacktrackerGenerator implements MazeGenerator
 {
-
+dgdfg
 	@Override
 	public void generateMaze(Maze maze)
 	{
