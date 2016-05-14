@@ -22,14 +22,9 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		Cell nextCell = null;
 		
 		// Creating boolean array to mark cells visited or unvisited
-<<<<<<< HEAD
-		boolean[] cellVisitor = new boolean[maze.sizeC * maze.sizeR];
-		int[] neighbours;
-=======
 		boolean[][] cellVisitor = new boolean[maze.sizeR][maze.sizeC];
 		int neighbourIndex = -10;
 		
->>>>>>> refs/remotes/origin/master
 
 		/*
 		 * Set the currentCell as the entrance to the maze
@@ -39,11 +34,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		row = currentCell.r;
 		col = currentCell.c;
 		stack.push(currentCell);
-<<<<<<< HEAD
-
-=======
 		
->>>>>>> refs/remotes/origin/master
 		/*
 		 * Main body of function.  Recursively visit all cells marking them as 
 		 * visited and carving a path
@@ -51,39 +42,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		do
 		{
 			// Mark the currentCell as visited
-<<<<<<< HEAD
-			cellVisitor[currentCell.c*maze.sizeR + currentCell.r] = true;
-			
-			// If the maze type is normal
-			if(maze.type == Maze.NORMAL)
-			{			
-				// Assign all nieghbours 
-				north = currentCell.neigh[Maze.NORTH];
-				east = currentCell.neigh[Maze.EAST];
-				south = currentCell.neigh[Maze.SOUTH];
-				west = currentCell.neigh[Maze.WEST];
-				
-			}// End of if normal maze
-			
-			else if(maze.type == Maze.HEX)
-			{
-				
-				// Assigns all neighbours	
-				north = currentCell.neigh[Maze.NORTH];
-				northEast = currentCell.neigh[Maze.NORTHEAST];
-				east = currentCell.neigh[Maze.EAST];
-				southEast = currentCell.neigh[Maze.SOUTHEAST];
-				south = currentCell.neigh[Maze.SOUTH];
-				southWest = currentCell.neigh[Maze.SOUTHWEST];
-				west = currentCell.neigh[Maze.WEST];
-				northWest = currentCell.neigh[Maze.NORTHWEST];
-				
-			}// End of if hex maze
-			
-			
-		}while(!stack.isEmpty());
-		
-=======
 			cellVisitor[currentCell.r][currentCell.c] = true;
 			ArrayList<String> availableNeighbours = new ArrayList<String>();
 			
@@ -187,10 +145,8 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			
 			
 		}while(stack.isEmpty() == false);
->>>>>>> refs/remotes/origin/master
 		
 		
-		currentCell.wall[Maze.NORTH].present = false;
 		
 		
 
