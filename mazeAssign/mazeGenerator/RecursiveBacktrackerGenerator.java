@@ -95,18 +95,15 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			{
 				currentCell = stack.pop();
 			}
-
+			/*
+			 * This block will choose a random neighbour, destroy the wall between
+			 * the currentCell and the neighbour, push the currentCell to the stack
+			 *  and set the currentCell to the neighbour
+			 */
 			else
 			{				
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
-				
-				System.out.println("Chosen cell position is: " + direction);
-				
-				System.out.println("NORTH WALL PRESENT? " + currentCell.wall[Maze.NORTH].present);
-				System.out.println("EAST WALL PRESENT? " + currentCell.wall[Maze.EAST].present);
-				System.out.println("SOUTH WALL PRESENT? " + currentCell.wall[Maze.SOUTH].present);
-				System.out.println("WEST WALL PRESENT? " + currentCell.wall[Maze.WEST].present);
 				
 				if(direction.equals("NORTH"))
 				{
@@ -155,8 +152,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 		
-		Cell cell = maze.map[3][4];
-		
 		
 		/*
 		 * Main body of function.  Recursively visit all cells marking them as 
@@ -176,7 +171,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			 *  The tunnel implementation also checks if a cell has a 'tunnel neighbour'.
 			 *  If the currentCell is a tunnel, then you move through the tunnel
 			 */
-			System.out.println("current cell is a tunnel? " + currentCell.tunnelTo);
 			if(currentCell.tunnelTo != null && cellVisitor[currentCell.tunnelTo.r][currentCell.tunnelTo.c] != true)
 			{
 				availableNeighbours.add("TUNNEL");
@@ -209,9 +203,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 				}
 			}
 				
-			System.out.println(availableNeighbours);
-			System.out.println("current row, col: " + currentCell.r + " " + currentCell.c);
-				
 			/*
 			 * If none of the neighbours are viable next cells then move back to the last cell visited
 			 */
@@ -229,13 +220,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			{				
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
-				
-				System.out.println("Chosen cell position is: " + direction);
-				
-				System.out.println("NORTH WALL PRESENT? " + currentCell.wall[Maze.NORTH].present);
-				System.out.println("EAST WALL PRESENT? " + currentCell.wall[Maze.EAST].present);
-				System.out.println("SOUTH WALL PRESENT? " + currentCell.wall[Maze.SOUTH].present);
-				System.out.println("WEST WALL PRESENT? " + currentCell.wall[Maze.WEST].present);
 				
 				if(direction.equals("TUNNEL"))
 				{
