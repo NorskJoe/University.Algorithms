@@ -5,121 +5,123 @@ import java.util.Stack;
 
 import maze.Cell;
 import maze.Maze;
+import maze.NormalMaze;
 
-
-
-public class RecursiveBacktrackerGenerator implements MazeGenerator {
-
-	Stack<Cell> stack = new Stack<Cell>();
-	Cell north, northEast, east, southEast, south,
-		southWest, west, northWest;
-	
+public class RecursiveBacktrackerGenerator implements MazeGenerator
+{
+dgdfg
 	@Override
-	public void generateMaze(Maze maze) {
-		Cell currentCell = null;
-		Cell nextCell = null;
-		
-		// neighbour index used to select nextCell
-		int neighbourIndex = -1;
-		
-		/*
-		 * Entering maze for the first time, set the current cell
-		 * to the entrance cell
-		 */
-		if(stack.isEmpty())
-		{
-			currentCell = maze.entrance;
-			stack.push(currentCell);
-		}
-		
-		// The entrance has already been visited
-		else
-		{
-			//currentCell = 
-		}
-		
-		// If the maze type is normal
-		if(maze.type == Maze.NORMAL)
-		{			
-			// Assign all nieghbours 
-			north = currentCell.neigh[Maze.NORTH];
-			east = currentCell.neigh[Maze.EAST];
-			south = currentCell.neigh[Maze.SOUTH];
-			west = currentCell.neigh[Maze.WEST];
-			
-			/*
-			 * Create an int array of the possible selections for
-			 * the next cell. 
-			 * NORTH = 2, EAST = 0, SOUTH = 5, WEST = 3
-			 */
-			int[] neighbours = {2, 0, 5, 3};
-						
-			// Randomly chooses a neighbouring cell to visit next
-			while(nextCell == null && nextCell != maze.exit)
-			{
-				//Randomly select a neighbour
-				Random rand = new Random();
-				neighbourIndex = rand.nextInt(neighbours.length);
-				nextCell = currentCell.neigh[neighbourIndex];
-			}
-		}// End of if normal maze
-		
-		else if(maze.type == Maze.HEX)
-		{
-			
-			// Assigns all neighbours	
-			north = currentCell.neigh[Maze.NORTH];
-			northEast = currentCell.neigh[Maze.NORTHEAST];
-			east = currentCell.neigh[Maze.EAST];
-			southEast = currentCell.neigh[Maze.SOUTHEAST];
-			south = currentCell.neigh[Maze.SOUTH];
-			southWest = currentCell.neigh[Maze.SOUTHWEST];
-			west = currentCell.neigh[Maze.WEST];
-			northWest = currentCell.neigh[Maze.NORTHWEST];
-			
-			/*
-			 * Create an int array of the possible selections for
-			 * the next cell. 
-			 * NORTH = 2, EAST = 0, SOUTH = 5, WEST = 3
-			 * NORTHEAST = 1, SOUTHEAST = 5, SOUTHWEST = 4, NORTHWEST = 2
-			 */
-			int[] neighbours = {2, 0, 5, 3, 1, 5, 4, 2};
-						
-			// Randomly chooses a neighbouring cell to visit next
-			while(nextCell == null && nextCell != maze.exit)
-			{
-				//Randomly select a neighbour
-				Random rand = new Random();
-				neighbourIndex = rand.nextInt(neighbours.length);
-				nextCell = currentCell.neigh[neighbourIndex];
-			}
-		}// End of if hex maze
+	public void generateMaze(Maze maze)
+	{
+		// variable for storing the path
+		Stack<Cell> path = new Stack<Cell>();
 
-		
-		/*
-		 * Removes the wall between the current cell
-		 * and the chosen neighbour
-		 */
-		currentCell.wall[neighbourIndex].present = false;
-		
-		
-		
-		/*		
-		for(int i = 0; i < maze.sizeR; i++)
+		// variable for storing maze type
+		String mazeType = maze.getClass().getSimpleName();
+
+		// if (mazeType.equals("NormalMaze"))
+		// {
+		// NormalMaze maze = new NormalMaze();
+		// maze = maze;
+		// }
+
+		// variable for checking visited cell
+		boolean[][] isVisited = new boolean[maze.sizeR][maze.sizeC];
+
+		// variable for storing all possible neighbours of the current cell
+		String[] neighbour = null;
+
+		if (mazeType.equals("NormalMaze") || mazeType.equals("TunnelMaze"))
 		{
-			for(int j = 0; j < maze.sizeC; j ++)
+			neighbour = new String[4];
+		}
+		else // hexa maze neighbour
+		{
+			neighbour = new String[6];
+		}
+
+		// set the current cell to the entrance
+		Cell currentCell = maze.entrance;
+
+		// mark the current cell to visited
+		isVisited[currentCell.r][currentCell.c] = true;
+
+		// neighbour on the north side
+		if (currentCell.r >= 0 && currentCell.r < maze.sizeR && currentCell.c >= 0 && currentCell.c <= maze.sizeC
+				&& !isVisited[currentCell.r + 1][currentCell.c])
+		{
+			neighbour[0] = "NORTH";
+		}
+
+		// neighbour on the east side
+		if (currentCell.r >= 0 && currentCell.r <= maze.sizeR && currentCell.c >= 0 && currentCell.c < maze.sizeC
+				&& !isVisited[currentCell.r][currentCell.c + 1])
+		{
+			neighbour[1] = "EAST";
+		}
+
+		// neighbour on the south side
+		if (currentCell.r > 0 && currentCell.r <= maze.sizeR && currentCell.c >= 0 && currentCell.c <= maze.sizeC
+				&& !isVisited[currentCell.r - 1][currentCell.c])
+		{
+			neighbour[2] = "SOUTH";
+		}
+
+		// neighbour on the west side
+		if (currentCell.r >= 0 && currentCell.r <= maze.sizeR && currentCell.c > 0 && currentCell.c <= maze.sizeC
+				&& !isVisited[currentCell.r][currentCell.c - 1])
+		{
+			neighbour[3] = "WEST";
+		}
+
+		// variable for moving randomly to the current cell neighbour
+		Random rand = new Random();
+		int randomMove;
+
+		do
+		{
+			randomMove = rand.nextInt(neighbour.length);
+
+			if (neighbour[randomMove] != null)
 			{
-				Cell cell = maze.map[i][j];
-				System.out.println(cell.r + " " + cell.c);
+				// move to north
+				if (neighbour[randomMove].equals("NORTH"))
+				{
+					currentCell.wall[maze.NORTH].present = false;
+					currentCell = new Cell(currentCell.r + 1, currentCell.c);
+				}
+				// move to east
+				if (neighbour[randomMove].equals("EAST"))
+				{
+					currentCell.wall[maze.EAST].present = false;
+					currentCell = new Cell(currentCell.r, currentCell.c + 1);
+				}
+				// move to south
+				if (neighbour[randomMove].equals("SOUTH"))
+				{
+					currentCell.wall[maze.SOUTH].present = false;
+					currentCell = new Cell(currentCell.r - 1, currentCell.c);
+				}
+				// move to west
+				if (neighbour[randomMove].equals("WEST"))
+				{
+					currentCell.wall[maze.WEST].present = false;
+					currentCell = new Cell(currentCell.r, currentCell.c - 1);
+				}
 			}
-		}*/
-		
-		
-	
-		
-		
-		
-		
+		} while (neighbour[randomMove] == null);
+
+		System.out.println(currentCell.r + " " + currentCell.c);
+
+		// do
+		// {
+		// // mark the current cell as visited
+		// isVisited[currentCell.r][currentCell.c] = true;
+		//
+		//
+		//
+		// } while (currentCell.c == maze.exit.c && currentCell.r ==
+		// maze.exit.r);
 	} // end of generateMaze()
 
 } // end of class RecursiveBacktrackerGenerator
