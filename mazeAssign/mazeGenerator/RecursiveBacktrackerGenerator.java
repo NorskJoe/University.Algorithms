@@ -85,9 +85,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 				availableNeighbours.add("WEST");
 			}
 				
-			System.out.println(availableNeighbours);
-			System.out.println("current row, col: " + currentCell.r + " " + currentCell.c);
-				
 			/*
 			 * If none of the neighbours are viable next cells then move back to the last cell visited
 			 */
