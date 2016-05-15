@@ -169,20 +169,20 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			 */
 			if (currentCell.r < maze.sizeR - 1)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c
-				                                                          + Maze.deltaC[Maze.NORTHEAST]] != null
-				                                                          && cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c
-				                                                                                                                      + Maze.deltaC[Maze.NORTHEAST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
+				        + Maze.deltaC[Maze.NORTHEAST]] != null
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
+						+ Maze.deltaC[Maze.NORTHEAST]] != true)
 				{
 					availableNeighbours.add("NORTH EAST");
 				}				
 			}
 			if (currentCell.r < maze.sizeR - 1)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c
-				                                                          + Maze.deltaC[Maze.NORTHWEST]] != null
-				                                                          && cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c
-				                                                                                                                      + Maze.deltaC[Maze.NORTHWEST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
+				        + Maze.deltaC[Maze.NORTHWEST]] != null
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
+						+ Maze.deltaC[Maze.NORTHWEST]] != true)
 				{
 					availableNeighbours.add("NORTH WEST");
 				}
@@ -200,7 +200,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
 						+ Maze.deltaC[Maze.SOUTHEAST]] != null
 						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-								+ Maze.deltaC[Maze.SOUTHEAST]] != true)
+						+ Maze.deltaC[Maze.SOUTHEAST]] != true)
 				{
 					availableNeighbours.add("SOUTH EAST");
 				}
@@ -210,7 +210,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
 						+ Maze.deltaC[Maze.SOUTHWEST]] != null
 						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-								+ Maze.deltaC[Maze.SOUTHWEST]] != true)
+						+ Maze.deltaC[Maze.SOUTHWEST]] != true)
 				{
 					availableNeighbours.add("SOUTH WEST");
 				}
