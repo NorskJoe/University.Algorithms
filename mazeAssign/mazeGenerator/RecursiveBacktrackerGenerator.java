@@ -161,46 +161,65 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			 * Each if statement checks if the neighbour is within bounds, and
 			 * has not been visited
 			 */
-			if (currentCell.c >= 0 && currentCell.c < maze.sizeC + 1 / 2 + maze.sizeC && currentCell.r >= 0
-					&& currentCell.r < maze.sizeR - 1
-					&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c
-							+ Maze.deltaC[Maze.NORTHEAST]] != true)
+			if (currentCell.r < maze.sizeR - 1)
 			{
-				availableNeighbours.add("NORTH EAST");
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c
+				                                                          + Maze.deltaC[Maze.NORTHEAST]] != null
+				                                                          && cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c
+				                                                                                                                      + Maze.deltaC[Maze.NORTHEAST]] != true)
+				{
+					availableNeighbours.add("NORTH EAST");
+				}				
 			}
-			if (currentCell.c >= 0 && currentCell.c < maze.sizeC + 1 / 2 && currentCell.r >= 0
-					&& currentCell.r < maze.sizeR - 1
-					&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c
-							+ Maze.deltaC[Maze.NORTHWEST]] != true)
+			if (currentCell.r < maze.sizeR - 1)
 			{
-				availableNeighbours.add("NORTH WEST");
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c
+				                                                          + Maze.deltaC[Maze.NORTHWEST]] != null
+				                                                          && cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c
+				                                                                                                                      + Maze.deltaC[Maze.NORTHWEST]] != true)
+				{
+					availableNeighbours.add("NORTH WEST");
+				}
 			}
-			if (currentCell.c >= 0 && currentCell.c <= maze.sizeC - 1
-					&& currentCell.c <= (maze.sizeC + 1) / 2 + maze.sizeC && currentCell.r >= 0
-					&& currentCell.r <= maze.sizeR && cellVisitor[currentCell.r][currentCell.c + 1] != true)
+			if (currentCell.c < (maze.sizeC + 1) / 2 + maze.sizeC - 1)
 			{
-				availableNeighbours.add("EAST");
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.EAST]][currentCell.c + Maze.deltaC[Maze.EAST]] != null
+						&& cellVisitor[currentCell.r][currentCell.c + 1] != true)
+				{
+					availableNeighbours.add("EAST");
+				}
 			}
-//			if (currentCell.c > 0 && currentCell.c < (maze.sizeC + 1) / 2 + maze.sizeC - 2
-//					&& currentCell.c <= (maze.sizeC + 1) / 2 && currentCell.r > 0 && currentCell.r <= maze.sizeR - 1
-//					&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-//							+ Maze.deltaC[Maze.SOUTHEAST]] != true)
-//			{
-//				availableNeighbours.add("SOUTH EAST");
-//			}
-			// if (!maze.isOnEdge(currentCell.r, currentCell.c)
-			// && cellVisitor[currentCell.r -
-			// Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-			// - Maze.deltaC[Maze.SOUTHWEST]] != true)
-			// {
-			// availableNeighbours.add("SOUTH WEST");
-			// }
-			if (currentCell.c > 0 && currentCell.c <= maze.sizeC && currentCell.c >= (maze.sizeC + 1) / 2 + 1
-					&& currentCell.r >= 0 && currentCell.r <= maze.sizeR
-					&& cellVisitor[currentCell.r][currentCell.c - 1] != true)
+			if (currentCell.r > 0)
 			{
-				availableNeighbours.add("WEST");
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
+						+ Maze.deltaC[Maze.SOUTHEAST]] != null
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
+								+ Maze.deltaC[Maze.SOUTHEAST]] != true)
+				{
+					availableNeighbours.add("SOUTH EAST");
+				}
 			}
+			if (currentCell.r > 0)
+			{
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
+						+ Maze.deltaC[Maze.SOUTHWEST]] != null
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
+								+ Maze.deltaC[Maze.SOUTHWEST]] != true)
+				{
+					availableNeighbours.add("SOUTH WEST");
+				}
+			}
+			if (currentCell.c > 0)
+			{
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.WEST]][currentCell.c + Maze.deltaC[Maze.WEST]] != null
+						&& cellVisitor[currentCell.r][currentCell.c - 1] != true)
+				{
+					availableNeighbours.add("WEST");
+				}
+			}
+			
+			System.out.println(availableNeighbours);
+			System.out.println("current row, col: " + currentCell.r + " " + currentCell.c);
 
 			/*
 			 * If none of the neighbours are viable next cells then move back to
@@ -214,6 +233,13 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			{
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
+
+				System.out.println("Chosen cell position is: " + direction);
+
+				System.out.println("NORTH WALL PRESENT? " + currentCell.wall[Maze.NORTH].present);
+				System.out.println("EAST WALL PRESENT? " + currentCell.wall[Maze.EAST].present);
+				System.out.println("SOUTH WALL PRESENT? " + currentCell.wall[Maze.SOUTH].present);
+				System.out.println("WEST WALL PRESENT? " + currentCell.wall[Maze.WEST].present);
 
 				if (direction.equals("NORTH EAST"))
 				{
