@@ -217,9 +217,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 					availableNeighbours.add("WEST");
 				}
 			}
-			
-			System.out.println(availableNeighbours);
-			System.out.println("current row, col: " + currentCell.r + " " + currentCell.c);
 
 			/*
 			 * If none of the neighbours are viable next cells then move back to
@@ -233,13 +230,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			{
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
-
-				System.out.println("Chosen cell position is: " + direction);
-
-				System.out.println("NORTH WALL PRESENT? " + currentCell.wall[Maze.NORTH].present);
-				System.out.println("EAST WALL PRESENT? " + currentCell.wall[Maze.EAST].present);
-				System.out.println("SOUTH WALL PRESENT? " + currentCell.wall[Maze.SOUTH].present);
-				System.out.println("WEST WALL PRESENT? " + currentCell.wall[Maze.WEST].present);
 
 				if (direction.equals("NORTH EAST"))
 				{
