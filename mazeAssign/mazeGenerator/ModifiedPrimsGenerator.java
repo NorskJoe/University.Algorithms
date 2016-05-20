@@ -15,7 +15,6 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		 * Each if statement checks what type of maze is being generated and
 		 * calls the appropriate method
 		 */
-		
 		if (maze.type == Maze.NORMAL)
 		{
 			normalMaze(maze);
@@ -33,7 +32,10 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 
 	private void normalMaze(Maze maze) {
 		
-		// The frontier set of cells that can be added to form a passage
+		/*
+		 *  The frontier set of cells that can be added to form a passage.
+		 *  The passage set of cells that have already been visited.
+		 */
 		ArrayList<Cell> frontier = new ArrayList<Cell>();
 		ArrayList<Cell> passage = new ArrayList<Cell>();
 		Cell startCell = null;
@@ -42,7 +44,7 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		 *  Set the current cell to the entrance of the maze, add it to the cells
 		 *  that are in passage.
 		 *  
-		 *  Add the maze entrance adjacent cells to frontier set to begin with
+		 *  Add the maze entrance's adjacent cells to frontier set to begin with.
 		 */
 		startCell = maze.entrance;
 		passage.add(startCell);
@@ -69,6 +71,8 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		}
 		
 		/*
+		 * Main body of function.
+		 * 
 		 * While loop will iterate until all cells in the maze have been added
 		 * to passage, which indicates the maze is complete
 		 */
@@ -84,7 +88,10 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			
 			/*
 			 *  Randomly choose a cell that is already in passage, and is adjacent
-			 *  to chosenFrontier
+			 *  to the cell we chose from the frontier set
+			 *  
+			 *  Once adjacent cells are found, carve a passage and add the frontier cell
+			 *  to the set of passage cells
 			 */
 			boolean foundPair = false;
 			do
@@ -117,7 +124,10 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 				}
 			}while(foundPair == false);
 				
-			
+			/*
+			 * Add the new frontier cells to the frontier set.  Will only add cells
+			 * that are in the range of the maze
+			 */
 			if (chosenFrontier.c >= 0 && chosenFrontier.c <= maze.sizeC && chosenFrontier.r >= 0
 					&& chosenFrontier.r < maze.sizeR - 1 && passage.contains(chosenFrontier.neigh[Maze.NORTH]) == false
 					&& frontier.contains(chosenFrontier.neigh[Maze.NORTH]) == false)
@@ -144,8 +154,6 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			}
 			
 		}
-		
-		
 	} // end of class ModifiedPrimsGenerator
 
 	private void hexMaze(Maze maze) {
