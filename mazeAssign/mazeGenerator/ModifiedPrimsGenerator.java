@@ -15,6 +15,7 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		 * Each if statement checks what type of maze is being generated and
 		 * calls the appropriate method
 		 */
+		
 		if (maze.type == Maze.NORMAL)
 		{
 			normalMaze(maze);
@@ -80,101 +81,68 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			// Randomly choose a cell that is in the frontier set
 			chosenFrontier = frontier.get(rand.nextInt(frontier.size()));
 			frontier.remove(chosenFrontier);
-			System.out.println("frontier removed");
-			
-			//System.out.println("chosen frontier is: " + chosenFrontier.r + " " + chosenFrontier.c);
 			
 			/*
 			 *  Randomly choose a cell that is already in passage, and is adjacent
 			 *  to chosenFrontier
 			 */
-			while(chosenPassage == null)
+			boolean foundPair = false;
+			do
 			{
-				System.out.println("got a new passage");
 				chosenPassage = passage.get(rand.nextInt(passage.size()));
-				/*
-				 * Each if statement will find which direction the chosenFrontier cell is
-				 * adjacent to the chosenPassage cell
-				 */
-				try
+				
+				if(chosenPassage.neigh[Maze.NORTH]==chosenFrontier)
 				{
-					System.out.println("on line 101");
-					if(maze.map[chosenPassage.r+1][chosenPassage.c]==chosenFrontier)
-					{
-						System.out.println("gone north");
-						chosenPassage.wall[Maze.NORTH].present = false;
-						passage.add(chosenPassage);
-						System.out.println("passage added");
-					}
-					
-					else if(maze.map[chosenPassage.r-1][chosenPassage.c]==chosenFrontier)
-					{
-						System.out.println("gone south");
-						chosenPassage.wall[Maze.SOUTH].present = false;
-						passage.add(chosenPassage);
-						System.out.println("passage added");
-					}
-					
-					else if(maze.map[chosenPassage.r][chosenPassage.c+1]==chosenFrontier)
-					{
-						System.out.println("gone east");
-						chosenPassage.wall[Maze.EAST].present = false;
-						passage.add(chosenPassage);
-						System.out.println("passage added");
-					}
-					
-					else if(maze.map[chosenPassage.r][chosenPassage.c-1]==chosenFrontier)
-					{
-						System.out.println("gone west");
-						chosenPassage.wall[Maze.WEST].present = false;
-						passage.add(chosenPassage);
-						System.out.println("passage added");
-					}
+					chosenPassage.wall[Maze.NORTH].present = false;
+					passage.add(chosenFrontier);
+					foundPair = true;
 				}
-				catch(Exception e)
+				if(chosenPassage.neigh[Maze.EAST]==chosenFrontier)
 				{
-					/*
-					 * Allows us to reference the areas that are out of bounds of maze.map.
-					 * Allows the while loop to continue until the adjacent cell is found.
-					 */
-					System.out.println("tried to get null");
-					//chosenPassage = null;
-					continue;
+					chosenPassage.wall[Maze.EAST].present = false;
+					passage.add(chosenFrontier);
+					foundPair = true;
 				}
-				System.out.println("on line 144");
-			}
+				if(chosenPassage.neigh[Maze.SOUTH]==chosenFrontier)
+				{
+					chosenPassage.wall[Maze.SOUTH].present = false;
+					passage.add(chosenFrontier);
+					foundPair = true;
+				}
+				if(chosenPassage.neigh[Maze.WEST]==chosenFrontier)
+				{
+					chosenPassage.wall[Maze.WEST].present = false;
+					passage.add(chosenFrontier);
+					foundPair = true;
+				}
+			}while(foundPair == false);
 				
 			
 			if (chosenFrontier.c >= 0 && chosenFrontier.c <= maze.sizeC && chosenFrontier.r >= 0
-					&& startCell.r < maze.sizeR - 1 && passage.contains(chosenFrontier.neigh[Maze.NORTH]) == false)
+					&& chosenFrontier.r < maze.sizeR - 1 && passage.contains(chosenFrontier.neigh[Maze.NORTH]) == false
+					&& frontier.contains(chosenFrontier.neigh[Maze.NORTH]) == false)
 			{
-				frontier.add(chosenFrontier.neigh[Maze.NORTH]);
-				System.out.println("frontier added");
+				frontier.add(chosenFrontier.neigh[Maze.NORTH]);				
 			}
 			if (chosenFrontier.c >= 0 && chosenFrontier.c < maze.sizeC - 1 && chosenFrontier.r >= 0
-					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.EAST]) == false)
+					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.EAST]) == false
+					&& frontier.contains(chosenFrontier.neigh[Maze.EAST]) == false)
 			{
-				frontier.add(chosenFrontier.neigh[Maze.EAST]);
-				System.out.println("frontier added");
+				frontier.add(chosenFrontier.neigh[Maze.EAST]);				
 			}
 			if (chosenFrontier.c >= 0 && chosenFrontier.c <= maze.sizeC && chosenFrontier.r > 0 
-					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.SOUTH]) == false)
+					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.SOUTH]) == false
+					&& frontier.contains(chosenFrontier.neigh[Maze.SOUTH]) == false)
 			{
-				frontier.add(chosenFrontier.neigh[Maze.SOUTH]);
-				System.out.println("frontier added");
+				frontier.add(chosenFrontier.neigh[Maze.SOUTH]);				
 			}
 			if (chosenFrontier.c > 0 && chosenFrontier.c <= maze.sizeC && chosenFrontier.r >= 0 
-					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.WEST]) == false)
+					&& chosenFrontier.r <= maze.sizeR && passage.contains(chosenFrontier.neigh[Maze.WEST]) == false
+					&& frontier.contains(chosenFrontier.neigh[Maze.WEST]) == false)
 			{
 				frontier.add(chosenFrontier.neigh[Maze.WEST]);
-				System.out.println("frontier added");
 			}
 			
-			System.out.println(frontier.size());
-			System.out.println(passage.size());
-			
-			//DEBUGGING
-			//break;
 		}
 		
 		
