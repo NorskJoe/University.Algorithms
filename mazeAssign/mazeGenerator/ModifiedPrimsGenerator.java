@@ -5,7 +5,6 @@ import java.util.Random;
 
 import maze.Cell;
 import maze.Maze;
-import maze.Wall;
 
 public class ModifiedPrimsGenerator implements MazeGenerator {
 
@@ -22,10 +21,6 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		else if (maze.type == Maze.HEX)
 		{
 			hexMaze(maze);
-		}
-		else if (maze.type == Maze.TUNNEL)
-		{
-			tunnelMaze(maze);
 		}
 
 	} // end of generateMaze()
@@ -154,7 +149,7 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			}
 			
 		}
-	} // end of class ModifiedPrimsGenerator
+	}// End of normal maze generator
 
 	private void hexMaze(Maze maze) {
 		/*
@@ -342,10 +337,5 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 				frontier.add(chosenFrontier.neigh[Maze.WEST]);
 			}
 		}
-	}
-
-	private void tunnelMaze(Maze maze) {
-		// TODO Auto-generated method stub
-		
-	}
+	}// End of hex maze generator
 }
