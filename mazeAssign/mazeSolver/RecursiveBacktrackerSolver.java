@@ -118,7 +118,6 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 			}
 			else
 			{
-				// step++;
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
 

@@ -167,61 +167,58 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			 * Each if statement checks if the neighbour is within bounds, and
 			 * has not been visited
 			 */
+			// If moving north
 			if (currentCell.r < maze.sizeR - 1)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
-				        + Maze.deltaC[Maze.NORTHEAST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
-						+ Maze.deltaC[Maze.NORTHEAST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]]
+							[currentCell.c + Maze.deltaC[Maze.NORTHEAST]] != null 
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]]
+								[currentCell.c + Maze.deltaC[Maze.NORTHEAST]] != true)
 				{
 					availableNeighbours.add("NORTH EAST");
 				}				
-			}
-			if (currentCell.r < maze.sizeR - 1)
-			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
-				        + Maze.deltaC[Maze.NORTHWEST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
-						+ Maze.deltaC[Maze.NORTHWEST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]]
+							[currentCell.c + Maze.deltaC[Maze.NORTHWEST]] != null 
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]]
+								[currentCell.c + Maze.deltaC[Maze.NORTHWEST]] != true)
 				{
 					availableNeighbours.add("NORTH WEST");
 				}
 			}
-			if (currentCell.c < (maze.sizeC + 1) / 2 + maze.sizeC - 1)
+			// If moving east
+			if (currentCell.c < (maze.sizeC+1)/2+maze.sizeC-1
+					&& maze.map[currentCell.r+Maze.deltaR[Maze.EAST]]
+							[currentCell.c+Maze.deltaC[Maze.EAST]] != null
+						&& cellVisitor[currentCell.r][currentCell.c+1] != true)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.EAST]][currentCell.c + Maze.deltaC[Maze.EAST]] != null
-						&& cellVisitor[currentCell.r][currentCell.c + 1] != true)
-				{
-					availableNeighbours.add("EAST");
-				}
+				
+				availableNeighbours.add("EAST");
+				
 			}
+			// If moving south
 			if (currentCell.r > 0)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHEAST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHEAST]] != true)
+				if (maze.map[currentCell.r+Maze.deltaR[Maze.SOUTHEAST]]
+							[currentCell.c+Maze.deltaC[Maze.SOUTHEAST]] != null
+						&& cellVisitor[currentCell.r+Maze.deltaR[Maze.SOUTHEAST]]
+								[currentCell.c+Maze.deltaC[Maze.SOUTHEAST]] != true)
 				{
 					availableNeighbours.add("SOUTH EAST");
 				}
-			}
-			if (currentCell.r > 0)
-			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHWEST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHWEST]] != true)
+				if (maze.map[currentCell.r+Maze.deltaR[Maze.SOUTHWEST]]
+							[currentCell.c+Maze.deltaC[Maze.SOUTHWEST]] != null
+						&& cellVisitor[currentCell.r+Maze.deltaR[Maze.SOUTHWEST]]
+								[currentCell.c+Maze.deltaC[Maze.SOUTHWEST]] != true)
 				{
 					availableNeighbours.add("SOUTH WEST");
 				}
 			}
-			if (currentCell.c > 0)
+			// If moving west
+			if (currentCell.c > 0 && maze.map[currentCell.r+Maze.deltaR[Maze.WEST]]
+						[currentCell.c+Maze.deltaC[Maze.WEST]] != null
+					&& cellVisitor[currentCell.r][currentCell.c-1] != true)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.WEST]][currentCell.c + Maze.deltaC[Maze.WEST]] != null
-						&& cellVisitor[currentCell.r][currentCell.c - 1] != true)
-				{
-					availableNeighbours.add("WEST");
-				}
+				availableNeighbours.add("WEST");	
 			}
 
 			/*
