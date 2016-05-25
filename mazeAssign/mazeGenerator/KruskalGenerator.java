@@ -39,6 +39,7 @@ public class KruskalGenerator implements MazeGenerator {
 	} // end of generateMaze()
 
 	private void normalMaze(Maze maze) {
+
 		/*
 		 * First add an edge for every pair of adjacent cells to a list.
 		 * 
@@ -102,7 +103,7 @@ public class KruskalGenerator implements MazeGenerator {
 			// If the sets are not connected, carve a path and connect them
 			if(!set1.connected(set2))
 			{
-				
+				// Check in which direction the pairs are joined, starting from cellOne
 				if(cellOne.neigh[Maze.NORTH]==cellTwo)
 				{
 					cellOne.wall[Maze.NORTH].present = false;
@@ -135,7 +136,121 @@ public class KruskalGenerator implements MazeGenerator {
 	}// End of normal generator
 
 	private void hexMaze(Maze maze) {
-		// TODO Auto-generated method stub
+		/*
+		 * First add an edge for every pair of adjacent cells to a list.
+		 * 
+		 * Iterate through the whole maze, getting all adjacent pairs and add the 
+		 * pair to the list.
+		 * Each edge is represented as an adjacent pair of cells.
+		 * 
+		 * eastern edges are not checked because it would cause some
+		 * edges to be added twice
+		 */
+		int realSizeC = (maze.sizeC+1)/2+maze.sizeC;
+		System.out.println(realSizeC);
+		
+		Edge pair = null;
+		for(int i = 0; i < maze.sizeR; i++)
+		{
+			ArrayList<Tree> tempSet = new ArrayList<Tree>();
+			for(int j = 0; j < realSizeC; j++)
+			{
+				Cell currentCell = maze.map[i][j];
+				tempSet.add(new Tree());
+				
+				if(currentCell!=null)
+				{			
+					// Checking neighbour on northwest side of cell
+					if (currentCell.r < maze.sizeR - 1 && maze.map[currentCell.r+Maze.deltaR[Maze.NORTHWEST]]
+							[currentCell.c+Maze.deltaC[Maze.NORTHWEST]] != null)
+					{
+						pair = new Edge(currentCell, currentCell.neigh[Maze.NORTHWEST]);
+						edges.add(pair);	
+					}
+					
+					// Checking neighbour on west side of cell
+					if(currentCell.c > 0
+							&& maze.map[currentCell.r+Maze.deltaR[Maze.WEST]]
+									[currentCell.c+Maze.deltaC[Maze.WEST]] != null)
+					{
+						pair = new Edge(currentCell, currentCell.neigh[Maze.WEST]);
+						edges.add(pair);
+					}
+					
+					// Checking neighbour on southwest side of cell
+					if (currentCell.r > 0 && maze.map[currentCell.r+Maze.deltaR[Maze.SOUTHWEST]]
+							[currentCell.c+Maze.deltaC[Maze.SOUTHWEST]] != null)
+					{
+						pair = new Edge(currentCell, currentCell.neigh[Maze.SOUTHWEST]);
+						edges.add(pair);	
+					}
+				}
+			}// End inner for-loop
+			sets.add(tempSet);
+				
+		}
+		/*
+		 * Main body of algorithm
+		 * 
+		 * Continue to choose random edges until there are none left.
+		 */
+		while(!edges.isEmpty())
+		{
+			// Randomly select an edge
+			Random rand = new Random();
+			Edge edge = edges.get(rand.nextInt(edges.size()));
+			Cell cellOne = edge.cellOne;
+			Cell cellTwo = edge.cellTwo;
+			
+			
+			// Get the corresponding sets for the two cells
+			Tree set1 = (sets.get(cellOne.r)).get(cellOne.c);
+			Tree set2 = (sets.get(cellTwo.r)).get(cellTwo.c);
+			
+			
+			// If the sets are not connected, carve a path and connect them
+			if(!set1.connected(set2))
+			{
+				
+				if(cellOne.neigh[Maze.NORTHWEST]==cellTwo)
+				{
+					cellOne.wall[Maze.NORTHWEST].present = false;
+					
+				}
+				else if(cellOne.neigh[Maze.NORTHEAST]==cellTwo)
+				{
+					cellOne.wall[Maze.NORTHEAST].present = false;
+					
+				}
+				else if(cellOne.neigh[Maze.EAST]==cellTwo)
+				{
+					cellOne.wall[Maze.EAST].present = false;
+					
+				}
+				else if(cellOne.neigh[Maze.SOUTHEAST]==cellTwo)
+				{
+					cellOne.wall[Maze.SOUTHEAST].present = false;
+					
+				}
+				else if(cellOne.neigh[Maze.SOUTHWEST]==cellTwo)
+				{
+					cellOne.wall[Maze.SOUTHWEST].present = false;
+					
+				}
+				else if(cellOne.neigh[Maze.WEST]==cellTwo)
+				{
+					cellOne.wall[Maze.WEST].present = false;
+					
+				}
+				set1.connect(set2);
+			}
+		
+			/*
+			 * Always remove any edges that are checked, if they are rejected they
+			 * should be removed from the list and not considered again.
+			 */
+			edges.remove(edge);
+		}
 		
 	}// End of hex generator
 
