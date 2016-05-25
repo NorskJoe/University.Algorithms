@@ -2,16 +2,21 @@ package mazeGenerator;
 
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 import maze.Cell;
 import maze.Maze;
-import maze.Wall;
 
 public class KruskalGenerator implements MazeGenerator {
 
-
+	/*
+	 * List of edges to be used to generate paths.
+	 * 
+	 * List of sets will be used to join cells together when a path exists
+	 */
+	ArrayList<Edge> edges = new ArrayList<Edge>();
+	ArrayList<ArrayList<Tree>> sets = new ArrayList<ArrayList<Tree>>();
+	
 	@Override
 	public void generateMaze(Maze maze) {
 		/*
@@ -40,111 +45,91 @@ public class KruskalGenerator implements MazeGenerator {
 		 * Iterate through the whole maze, getting all adjacent pairs and add the 
 		 * pair to the list.
 		 * Each edge is represented as an adjacent pair of cells.
+		 * 
+		 * South and east edges are not checked because it would cause some
+		 * edges to be added twice
 		 */
-		ArrayList<ArrayList<Cell>> edges = new ArrayList<ArrayList<Cell>>();
-		ArrayList<TreeNode<Cell>> trees = new ArrayList<TreeNode<Cell>>();
+		Edge pair = null;
 		for(int i = 0; i < maze.sizeR; i++)
-			for(int j = 0; j < maze.sizeC; j ++)
+		{
+			ArrayList<Tree> tempSet = new ArrayList<Tree>();
+			for(int j = 0; j < maze.sizeC; j++)
 			{
 				Cell currentCell = maze.map[i][j];
+				tempSet.add(new Tree());
 				
 				// Checking neighbour on north side of cell
 				if (currentCell.c >= 0 && currentCell.c <= maze.sizeC && currentCell.r >= 0
-						&& currentCell.r < maze.sizeR - 1 && edges.contains(currentCell.wall[Maze.NORTH])==false)
+						&& currentCell.r < maze.sizeR - 1)
 				{
-					ArrayList<Cell> temp = new ArrayList<Cell>();
-					temp.add(currentCell);
-					temp.add(currentCell.neigh[Maze.NORTH]);
-					edges.add(temp);
+					pair = new Edge(currentCell, currentCell.neigh[Maze.NORTH]);
+					if(edges.contains(pair)==false)
+					{
+						edges.add(pair);						
+					}
 				}
-				// Checking neighbour on east side of cell
-				if (currentCell.c >= 0 && currentCell.c < maze.sizeC - 1 && currentCell.r >= 0
-						&& currentCell.r <= maze.sizeR && edges.contains(currentCell.wall[Maze.EAST])==false)
-				{
-					ArrayList<Cell> temp = new ArrayList<Cell>();
-					temp.add(currentCell);
-					temp.add(currentCell.neigh[Maze.EAST]);
-					edges.add(temp);
-				}
-				// Checking neighbour on south side of cell
-				if (currentCell.c >= 0 && currentCell.c <= maze.sizeC && currentCell.r > 0 && currentCell.r <= maze.sizeR
-						&& edges.contains(currentCell.wall[Maze.SOUTH])==false)
-				{
-					ArrayList<Cell> temp = new ArrayList<Cell>();
-					temp.add(currentCell);
-					temp.add(currentCell.neigh[Maze.SOUTH]);
-					edges.add(temp);
-				}
+
 				// Checking neighbour on west side of cell
-				if (currentCell.c > 0 && currentCell.c <= maze.sizeC && currentCell.r >= 0 && currentCell.r <= maze.sizeR
-						&& edges.contains(currentCell.wall[Maze.WEST])==false)
+				if (currentCell.c > 0 && currentCell.c <= maze.sizeC && currentCell.r >= 0 
+						&& currentCell.r <= maze.sizeR)
 				{
-					ArrayList<Cell> temp = new ArrayList<Cell>();
-					temp.add(currentCell);
-					temp.add(currentCell.neigh[Maze.WEST]);
-					edges.add(temp);
+					pair = new Edge(currentCell, currentCell.neigh[Maze.WEST]);
+					if(edges.contains(pair)==false)
+					{
+						edges.add(pair);						
+					}
 				}
-				TreeNode<Cell> cell = new TreeNode<Cell>(currentCell);
-				trees.add(cell);
 			}
-		
+			sets.add(tempSet);
+		}
 		/*
-		 * Continue to choose random edges until there are none left
+		 * Main body of algorithm
+		 * 
+		 * Continue to choose random edges until there are none left.
 		 */
 		while(!edges.isEmpty())
 		{
-			
-			System.out.println(edges.size());
-			
+			// Randomly select an edge
 			Random rand = new Random();
+			Edge edge = edges.get(rand.nextInt(edges.size()));
+			Cell cellOne = edge.cellOne;
+			Cell cellTwo = edge.cellTwo;
 			
-			ArrayList<Cell> temp = edges.get(rand.nextInt(edges.size()));
-			Cell cellOne = temp.get(0);
-			Cell cellTwo = temp.get(1);
+			// Get the corresponding sets for the two cells
+			Tree set1 = (sets.get(cellOne.r)).get(cellOne.c);
+			Tree set2 = (sets.get(cellTwo.r)).get(cellTwo.c);
 			
-			TreeNode<Cell> first = null;
-			TreeNode<Cell> second = null;
-			
-			for(TreeNode<Cell> t : trees)
+			// If the sets are not connected, carve a path and connect them
+			if(!set1.connected(set2))
 			{
-				if(t.cell==cellOne)
-				{
-					first = t;
-				}
-				if(t.cell==cellTwo){
-					second = t;
-				}
-			}
-			
-			System.out.println(first.connections.size());
-			
-			if(first.testConnected(second)==false)
-			{				
+				
 				if(cellOne.neigh[Maze.NORTH]==cellTwo)
 				{
 					cellOne.wall[Maze.NORTH].present = false;
-					first.connect(second);
+					
 				}
-				if(cellOne.neigh[Maze.EAST]==cellTwo)
+				else if(cellOne.neigh[Maze.EAST]==cellTwo)
 				{
 					cellOne.wall[Maze.EAST].present = false;
-					first.connect(second);
+					
 				}
-				if(cellOne.neigh[Maze.SOUTH]==cellTwo)
+				else if(cellOne.neigh[Maze.SOUTH]==cellTwo)
 				{
 					cellOne.wall[Maze.SOUTH].present = false;
-					first.connect(second);
+					
 				}
-				if(cellOne.neigh[Maze.WEST]==cellTwo)
+				else if(cellOne.neigh[Maze.WEST]==cellTwo)
 				{
 					cellOne.wall[Maze.WEST].present = false;
-					first.connect(second);
+					
 				}
-				
-				edges.remove(temp);
+				set1.connect(set2);
 			}
-			//trees.remove(second);
-			if(edges.size()==40)break;
+			/*
+			 * Always remove any edges that are checked, if they are rejected they
+			 * should be removed from the list and not considered again.
+			 */
+			edges.remove(edge);
 		}
 		
 	}// End of normal generator
@@ -162,43 +147,60 @@ public class KruskalGenerator implements MazeGenerator {
 	/*
 	 * Tree data structure used to compare sets of cells
 	 */
-	public class TreeNode<T> 
-	{
-	     private T cell;
-	     private ArrayList<TreeNode<T>> connections = new ArrayList<TreeNode<T>>();
-	     
-	     public TreeNode(T cell)
-	     {
-	    	 this.cell = cell;
-	     }
-	     
-	     public TreeNode<T> addChild(T child)
-	     {
-	    	 TreeNode<T> childNode = new TreeNode<T>(child);
-	    	 return childNode;
-	     }
-	     
-	     public boolean testConnected(TreeNode<T> treeTwo)
-	     {
-	    	 
-	    	 if(this.connections.contains(treeTwo) || treeTwo.connections.contains(this))
-	    	 {
-	    		 return true;
-	    	 }
-	    	 else
-	    	 {
-	    		 return false;	    		 
-	    	 }
-	     }
-	     
-	     public void connect(TreeNode<T> tree)
-	     {
-	    	 this.connections.add(tree);
-	     }
-	}
+	class Tree {
+		
+		private Tree parent = null;
+		
+		public Tree() {
+			
+		}
+		
+		/*
+		 * Traverse to root of tree to see if there is a parent.
+		 * Return parent if exists, otherwise return this object instance.
+		 */
+		public Tree root() {
+			return parent != null ? parent.root() : this;
+		}
+		
+		/*
+		 * Are we connected to this tree?
+		 */
+		public boolean connected(Tree tree) {
+			return this.root() == tree.root();
+		}
+		
+		//
+		// Connect to the tree
+		//
+		public void connect(Tree tree) {
+			tree.root().setParent(this);
+		}
+		
+		//
+		// Set the parent of the object instance
+		public void setParent(Tree parent) {
+			this.parent = parent;
+		}
+	}// End of Tree inner class
 	
+	/*
+	 * Edge data structure to represent an edge between two cells.
+	 * 
+	 * Each edge contains the two cells that are adjacent to each other.
+	 */
+	class Edge{
+		
+		Cell cellOne;
+		Cell cellTwo;
+		
+		Edge(Cell one, Cell two)
+		{
+			cellOne = one;
+			cellTwo = two;
+		}
+	}// End of Edge inner class
 	
-
 } // end of class KruskalGenerator
 
 
