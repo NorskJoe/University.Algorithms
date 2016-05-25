@@ -36,10 +36,12 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		Cell startCell = null;
 		
 		/*
-		 *  Set the current cell to the entrance of the maze, add it to the cells
-		 *  that are in passage.
+		 *  Initialisation part of algorithm
 		 *  
-		 *  Add the maze entrance's adjacent cells to frontier set to begin with.
+		 *  (1) Add starting cell to the passage set, i.e those that have
+		 *  already been visisted
+		 *  (2) Get all of the neighbours of the starting cell and add
+		 *  them to the frontier set
 		 */
 		startCell = maze.entrance;
 		passage.add(startCell);
@@ -68,25 +70,29 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		/*
 		 * Main body of function.
 		 * 
-		 * While loop will iterate until all cells in the maze have been added
-		 * to passage, which indicates the maze is complete
+		 * (1)Randomly select a cell from the frontier set of cells, and
+		 * 		remove it from the frontier set
+		 * (2)Randomly select a cell from the passage set of cells, one
+		 * 		that is adjacent to the chosen frontier cell
+		 * (3)Carve a path between these two cells
+		 * (4)Add the frontier cell to the set of passage cells
+		 * (5)Get all the new frontier cells that are associated with the newly
+		 * 		added passage cell
+		 * (6)Repeat this process until the set of cells in passage equals
+		 * 		the size of the maze, indicating all cells have been visisted
 		 */
 		while(passage.size() != maze.sizeR*maze.sizeC)
 		{
 			Cell chosenFrontier = null;
 			Cell chosenPassage = null;
-			Random rand = new Random();
-			
 			// Randomly choose a cell that is in the frontier set
+			Random rand = new Random();
 			chosenFrontier = frontier.get(rand.nextInt(frontier.size()));
 			frontier.remove(chosenFrontier);
 			
 			/*
 			 *  Randomly choose a cell that is already in passage, and is adjacent
 			 *  to the cell we chose from the frontier set
-			 *  
-			 *  Once adjacent cells are found, carve a passage and add the frontier cell
-			 *  to the set of passage cells
 			 */
 			boolean foundPair = false;
 			do
@@ -161,12 +167,12 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		Cell startCell = null;
 		
 		/*
-		 *  Set the current cell to the entrance of the maze, add it to the cells
-		 *  that are in passage.
+		 *  Initialisation part of algorithm
 		 *  
-		 *  Add the maze entrance's adjacent cells to frontier set to begin with.
-		 *  Each if statement checks the bounds of the maze to see if there is a 
-		 *  valid neighbour
+		 *  (1) Add starting cell to the passage set, i.e those that have
+		 *  already been visisted
+		 *  (2) Get all of the neighbours of the starting cell and add
+		 *  them to the frontier set
 		 */
 		startCell = maze.entrance;
 		passage.add(startCell);
@@ -216,8 +222,16 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		/*
 		 * Main body of function.
 		 * 
-		 * While loop will iterate until all cells in the maze have been added
-		 * to passage, which indicates the maze is complete
+		 * (1)Randomly select a cell from the frontier set of cells, and
+		 * 		remove it from the frontier set
+		 * (2)Randomly select a cell from the passage set of cells, one
+		 * 		that is adjacent to the chosen frontier cell
+		 * (3)Carve a path between these two cells
+		 * (4)Add the frontier cell to the set of passage cells
+		 * (5)Get all the new frontier cells that are associated with the newly
+		 * 		added passage cell
+		 * (6)Repeat this process until the set of cells in passage equals
+		 * 		the size of the maze, indicating all cells have been visisted
 		 */
 		while(passage.size() != maze.sizeR*maze.sizeC)
 		{
