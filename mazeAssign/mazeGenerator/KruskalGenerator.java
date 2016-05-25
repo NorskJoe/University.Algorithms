@@ -41,11 +41,10 @@ public class KruskalGenerator implements MazeGenerator {
 	private void normalMaze(Maze maze) {
 
 		/*
-		 * First add an edge for every pair of adjacent cells to a list.
+		 * Initialisation part of algorithm
 		 * 
-		 * Iterate through the whole maze, getting all adjacent pairs and add the 
-		 * pair to the list.
-		 * Each edge is represented as an adjacent pair of cells.
+		 * (1) For each pair of adjacent cells, create an edge
+		 * (2) All edges are stored in a set (ArrayList)
 		 * 
 		 * South and east edges are not checked because it would cause some
 		 * edges to be added twice
@@ -86,7 +85,10 @@ public class KruskalGenerator implements MazeGenerator {
 		/*
 		 * Main body of algorithm
 		 * 
-		 * Continue to choose random edges until there are none left.
+		 * (1) Randomly choose an edge (two adjacent pairs)
+		 * (2) If the edge will join two disjoint trees, merge the trees
+		 * (3) Carve a path between the two adjacent cells from the edge
+		 * (4) Repeat these steps until there are no edges left
 		 */
 		while(!edges.isEmpty())
 		{
@@ -137,13 +139,12 @@ public class KruskalGenerator implements MazeGenerator {
 
 	private void hexMaze(Maze maze) {
 		/*
-		 * First add an edge for every pair of adjacent cells to a list.
+		 * Initialisation part of algorithm
 		 * 
-		 * Iterate through the whole maze, getting all adjacent pairs and add the 
-		 * pair to the list.
-		 * Each edge is represented as an adjacent pair of cells.
+		 * (1) For each pair of adjacent cells, create an edge
+		 * (2) All edges are stored in a set (ArrayList)
 		 * 
-		 * eastern edges are not checked because it would cause some
+		 * South and east edges are not checked because it would cause some
 		 * edges to be added twice
 		 */
 		// Get the actual size of the columns, different for hex mazes
@@ -195,7 +196,10 @@ public class KruskalGenerator implements MazeGenerator {
 		/*
 		 * Main body of algorithm
 		 * 
-		 * Continue to choose random edges until there are none left.
+		 * (1) Randomly choose an edge (two adjacent pairs)
+		 * (2) If the edge will join two disjoint trees, merge the trees
+		 * (3) Carve a path between the two adjacent cells from the edge
+		 * (4) Repeat these steps until there are no edges left
 		 */
 		while(!edges.isEmpty())
 		{
@@ -260,11 +264,10 @@ public class KruskalGenerator implements MazeGenerator {
 
 	private void tunnelMaze(Maze maze) {
 		/*
-		 * First add an edge for every pair of adjacent cells to a list.
+		 * Initialisation part of algorithm
 		 * 
-		 * Iterate through the whole maze, getting all adjacent pairs and add the 
-		 * pair to the list.
-		 * Each edge is represented as an adjacent pair of cells.
+		 * (1) For each pair of adjacent cells, create an edge
+		 * (2) All edges are stored in a set (ArrayList)
 		 * 
 		 * South and east edges are not checked because it would cause some
 		 * edges to be added twice
@@ -278,6 +281,7 @@ public class KruskalGenerator implements MazeGenerator {
 				Cell currentCell = maze.map[i][j];
 				tempSet.add(new Tree());
 				
+				// If the currentCell has a tunnel, add its tunnelTo cell as an adjacent pair
 				if(currentCell.tunnelTo != null)
 				{
 					pair = new Edge(currentCell, currentCell.tunnelTo);
@@ -312,7 +316,10 @@ public class KruskalGenerator implements MazeGenerator {
 		/*
 		 * Main body of algorithm
 		 * 
-		 * Continue to choose random edges until there are none left.
+		 * (1) Randomly choose an edge (two adjacent pairs)
+		 * (2) If the edge will join two disjoint trees, merge the trees
+		 * (3) Carve a path between the two adjacent cells from the edge
+		 * (4) Repeat these steps until there are no edges left
 		 */
 		while(!edges.isEmpty())
 		{
