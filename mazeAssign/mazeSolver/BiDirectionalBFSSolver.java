@@ -528,8 +528,8 @@ public class BiDirectionalBFSSolver implements MazeSolver
 		startCell = maze.entrance;
 		endCell = maze.exit;
 
-		startPath.add(startCell);
-		exitPath.add(endCell);
+		//startPath.add(startCell);
+		//exitPath.add(endCell);
 
 		// Mark both cell as visited
 		cellVisitorStart[startCell.r][startCell.c] = true;
@@ -546,19 +546,22 @@ public class BiDirectionalBFSSolver implements MazeSolver
 			 * frontier backward(exit point) then it mean we found a path from
 			 * starting point to exit
 			 */
-			if (startCell.tunnelTo != null && cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] != true)
+			if (startCell.tunnelTo != null)
 			{
-				if (cellVisitorExit[startCell.tunnelTo.r][startCell.tunnelTo.c] == true)
+				if(cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] != true)
 				{
-					foundPath = true;
+					if (cellVisitorExit[startCell.tunnelTo.r][startCell.tunnelTo.c] == true)
+					{
+						foundPath = true;
+					}
+					else if (cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] != true)
+					{
+						startPath.add(maze.map[startCell.tunnelTo.r][startCell.tunnelTo.c]);
+						cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] = true;
+						step++;
+					}
+					maze.drawFtPrt(maze.map[startCell.tunnelTo.r][startCell.tunnelTo.c]);
 				}
-				else if (cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] != true)
-				{
-					startPath.add(maze.map[startCell.tunnelTo.r][startCell.tunnelTo.c]);
-					cellVisitorStart[startCell.tunnelTo.r][startCell.tunnelTo.c] = true;
-					step++;
-				}
-				maze.drawFtPrt(maze.map[startCell.tunnelTo.r][startCell.tunnelTo.c]);
 			}
 			if (startCell.wall[Maze.NORTH].present == false)
 			{
@@ -566,8 +569,7 @@ public class BiDirectionalBFSSolver implements MazeSolver
 				{
 					foundPath = true;
 				}
-				else if (cellVisitorStart[startCell.r + 1][startCell.c] != true
-						&& maze.map[startCell.r + 1][startCell.c].tunnelTo == null)
+				else if (cellVisitorStart[startCell.r + 1][startCell.c] != true)
 				{
 					startPath.add(maze.map[startCell.r + 1][startCell.c]);
 					cellVisitorStart[startCell.r + 1][startCell.c] = true;
@@ -630,19 +632,23 @@ public class BiDirectionalBFSSolver implements MazeSolver
 			 * frontier forward(starting point) then it mean we found a path
 			 * from starting point to exit
 			 */
-			if (endCell.tunnelTo != null && cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] != true)
+			if (endCell.tunnelTo != null)
 			{
-				if (cellVisitorStart[endCell.tunnelTo.r][endCell.tunnelTo.c] == true)
+				if(cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] != true)
 				{
-					foundPath = true;
+					
+					if (cellVisitorStart[endCell.tunnelTo.r][endCell.tunnelTo.c] == true)
+					{
+						foundPath = true;
+					}
+					else if (cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] != true)
+					{
+						exitPath.add(maze.map[endCell.tunnelTo.r][endCell.tunnelTo.c]);
+						cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] = true;
+						step++;
+					}
+					maze.drawFtPrt(maze.map[endCell.tunnelTo.r][endCell.tunnelTo.c]);
 				}
-				else if (cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] != true)
-				{
-					exitPath.add(maze.map[endCell.tunnelTo.r][endCell.tunnelTo.c]);
-					cellVisitorExit[endCell.tunnelTo.r][endCell.tunnelTo.c] = true;
-					step++;
-				}
-				maze.drawFtPrt(maze.map[endCell.tunnelTo.r][endCell.tunnelTo.c]);
 			}
 			if (endCell.wall[Maze.NORTH].present == false)
 			{
@@ -704,7 +710,9 @@ public class BiDirectionalBFSSolver implements MazeSolver
 			 * end of checking possible neighbour from starting point and
 			 * marking as visited
 			 */
-
+			
+			
+			// Get the next cells from the queue
 			startCell = startPath.poll();
 			endCell = exitPath.poll();
 
