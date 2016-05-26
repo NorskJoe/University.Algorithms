@@ -36,29 +36,42 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 
 	private void normalMaze(Maze maze)
 	{
-		Cell currentCell = null;
-
-		// Creating boolean array to mark cells visited or unvisited
+		/*
+		 * Boolean array used to create a copy of the maze with all cells set to false.
+		 * As each cell is visited it will be set to true, indicating it has been
+		 * visisted.
+		 */
 		boolean[][] cellVisitor = new boolean[maze.sizeR][maze.sizeC];
 
 		/*
 		 * Set the currentCell as the entrance to the maze and push it to the
 		 * stack
 		 */
+		Cell currentCell = null;
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 
 		/*
-		 * Main body of function. Recursively visit all cells marking them as
-		 * visited and carving a path.
+		 * Main body of function. 
 		 * 
-		 * This will continue until all cells have been visited, and therefore
-		 * the stack is empty
+		 * (1)Choose a random neighbour of the current cell that is not
+		 * 		visisted
+		 * (2)Push the current cell to the top of the stack
+		 * (3)Move to the neighbour, carving a path, and mark is as visisted
+		 * (4)Update the neighbours list for the current cell
+		 * (5)If the neighbours list is empty, backtrack to the previous
+		 * 		cell by popping the stack and check if it has any available neighbours
+		 * (6)Continue this process until the stack is empty, indicating that
+		 * 		all cells have been marked as visisted
 		 */
 		do
 		{
 			// Mark the currentCell as visited
 			cellVisitor[currentCell.r][currentCell.c] = true;
+			/*
+			 * ArrayList holds all the neighbours of the current cell that
+			 * have not been visisted.
+			 */
 			ArrayList<String> availableNeighbours = new ArrayList<String>();
 
 			/*
@@ -99,7 +112,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			}
 
 			/*
-			 * This block will choose a random neighbour, destroy the wall between
+			 * This block will choose a random neighbour, carve a wall between
 			 * the currentCell and the neighbour, push the currentCell to the stack
 			 *  and set the currentCell to the neighbour
 			 */
@@ -138,24 +151,34 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 
 	private void hexMaze(Maze maze)
 	{
-		Cell currentCell = null;
 
-		// Creating boolean array to mark cells visited or unvisited
+		/*
+		 * Boolean array used to create a copy of the maze with all cells set to false.
+		 * As each cell is visited it will be set to true, indicating it has been
+		 * visisted.
+		 */
 		boolean[][] cellVisitor = new boolean[maze.sizeR][maze.sizeC + (maze.sizeR + 1) / 2];
 
 		/*
 		 * Set the currentCell as the entrance to the maze and push it to the
 		 * stack
 		 */
+		Cell currentCell = null;
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 
 		/*
-		 * Main body of function. Recursively visit all cells marking them as
-		 * visited and carving a path.
+		 * Main body of function. 
 		 * 
-		 * This will continue until all cells have been visited, and therefore
-		 * the stack is empty
+		 * (1)Choose a random neighbour of the current cell that is not
+		 * 		visisted
+		 * (2)Push the current cell to the top of the stack
+		 * (3)Move to the neighbour, carving a path, and mark is as visisted
+		 * (4)Update the neighbours list for the current cell
+		 * (5)If the neighbours list is empty, backtrack to the previous
+		 * 		cell by popping the stack and check if it has any available neighbours
+		 * (6)Continue this process until the stack is empty, indicating that
+		 * 		all cells have been marked as visisted
 		 */
 		do
 		{
@@ -167,61 +190,58 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 			 * Each if statement checks if the neighbour is within bounds, and
 			 * has not been visited
 			 */
+			// If moving north
 			if (currentCell.r < maze.sizeR - 1)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
-				        + Maze.deltaC[Maze.NORTHEAST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]][currentCell.c 
-						+ Maze.deltaC[Maze.NORTHEAST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHEAST]]
+							[currentCell.c + Maze.deltaC[Maze.NORTHEAST]] != null 
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHEAST]]
+								[currentCell.c + Maze.deltaC[Maze.NORTHEAST]] != true)
 				{
 					availableNeighbours.add("NORTH EAST");
 				}				
-			}
-			if (currentCell.r < maze.sizeR - 1)
-			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
-				        + Maze.deltaC[Maze.NORTHWEST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]][currentCell.c 
-						+ Maze.deltaC[Maze.NORTHWEST]] != true)
+				if (maze.map[currentCell.r + Maze.deltaR[Maze.NORTHWEST]]
+							[currentCell.c + Maze.deltaC[Maze.NORTHWEST]] != null 
+						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.NORTHWEST]]
+								[currentCell.c + Maze.deltaC[Maze.NORTHWEST]] != true)
 				{
 					availableNeighbours.add("NORTH WEST");
 				}
 			}
-			if (currentCell.c < (maze.sizeC + 1) / 2 + maze.sizeC - 1)
+			// If moving east
+			if (currentCell.c < (maze.sizeC+1)/2+maze.sizeC-1
+					&& maze.map[currentCell.r+Maze.deltaR[Maze.EAST]]
+							[currentCell.c+Maze.deltaC[Maze.EAST]] != null
+						&& cellVisitor[currentCell.r][currentCell.c+1] != true)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.EAST]][currentCell.c + Maze.deltaC[Maze.EAST]] != null
-						&& cellVisitor[currentCell.r][currentCell.c + 1] != true)
-				{
-					availableNeighbours.add("EAST");
-				}
+				
+				availableNeighbours.add("EAST");
+				
 			}
+			// If moving south
 			if (currentCell.r > 0)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHEAST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHEAST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHEAST]] != true)
+				if (maze.map[currentCell.r+Maze.deltaR[Maze.SOUTHEAST]]
+							[currentCell.c+Maze.deltaC[Maze.SOUTHEAST]] != null
+						&& cellVisitor[currentCell.r+Maze.deltaR[Maze.SOUTHEAST]]
+								[currentCell.c+Maze.deltaC[Maze.SOUTHEAST]] != true)
 				{
 					availableNeighbours.add("SOUTH EAST");
 				}
-			}
-			if (currentCell.r > 0)
-			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHWEST]] != null
-						&& cellVisitor[currentCell.r + Maze.deltaR[Maze.SOUTHWEST]][currentCell.c
-						+ Maze.deltaC[Maze.SOUTHWEST]] != true)
+				if (maze.map[currentCell.r+Maze.deltaR[Maze.SOUTHWEST]]
+							[currentCell.c+Maze.deltaC[Maze.SOUTHWEST]] != null
+						&& cellVisitor[currentCell.r+Maze.deltaR[Maze.SOUTHWEST]]
+								[currentCell.c+Maze.deltaC[Maze.SOUTHWEST]] != true)
 				{
 					availableNeighbours.add("SOUTH WEST");
 				}
 			}
-			if (currentCell.c > 0)
+			// If moving west
+			if (currentCell.c > 0 && maze.map[currentCell.r+Maze.deltaR[Maze.WEST]]
+						[currentCell.c+Maze.deltaC[Maze.WEST]] != null
+					&& cellVisitor[currentCell.r][currentCell.c-1] != true)
 			{
-				if (maze.map[currentCell.r + Maze.deltaR[Maze.WEST]][currentCell.c + Maze.deltaC[Maze.WEST]] != null
-						&& cellVisitor[currentCell.r][currentCell.c - 1] != true)
-				{
-					availableNeighbours.add("WEST");
-				}
+				availableNeighbours.add("WEST");	
 			}
 
 			/*
@@ -279,24 +299,35 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 	}// End of hexMaze()
 
 	private void tunnelMaze(Maze maze) {
-		Cell currentCell = null;
 		
-		// Creating boolean array to mark cells visited or unvisited
+		/*
+		 * Boolean array used to create a copy of the maze with all cells set to false.
+		 * As each cell is visited it will be set to true, indicating it has been
+		 * visisted.
+		 */
 		boolean[][] cellVisitor = new boolean[maze.sizeR][maze.sizeC];
 		
 		/*
 		 * Set the currentCell as the entrance to the maze
 		 * and push it to the stack
 		 */
+		Cell currentCell = null;
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 		
 		
 		/*
-		 * Main body of function.  Recursively visit all cells marking them as 
-		 * visited and carving a path.
+		 * Main body of function. 
 		 * 
-		 * This will continue until all cells have been visited, and therefore the stack is empty
+		 * (1)Choose a random neighbour of the current cell that is not
+		 * 		visisted
+		 * (2)Push the current cell to the top of the stack
+		 * (3)Move to the neighbour, carving a path, and mark is as visisted
+		 * (4)Update the neighbours list for the current cell
+		 * (5)If the neighbours list is empty, backtrack to the previous
+		 * 		cell by popping the stack and check if it has any available neighbours
+		 * (6)Continue this process until the stack is empty, indicating that
+		 * 		all cells have been marked as visisted
 		 */
 		do
 		{
