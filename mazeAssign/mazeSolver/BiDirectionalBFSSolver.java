@@ -54,6 +54,40 @@ public class BiDirectionalBFSSolver implements MazeSolver
 		return step;
 	} // end of cellsExplored()
 
+	/** 
+     * Bi-Directional BFS Solver of input maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * Bi-Directional BFS Solver
+     * ALGORITHM normalMaze ( maze )
+     * Perform a Bi-Directional BFS solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitorStart = {}
+     * 2: cellVisitorExit = {}
+     * 
+     * // set the start and end cell to maze entrance and exit respectively,
+     *    push its to stack and mark its as visited cell
+     * 3: startCell = maze.entrance
+     * 4: endCell = maze.exit
+     * 5: startPath.add(startCell)
+     * 6: endPath.add(endCell)
+     * 
+     * // while startCell and endCell does not meet
+     * 7: while(startCell does not meet with endCell)
+     * 8:   check every possible neighbour of startCell and endCell,
+     *      then move both of the cells randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void normalMaze(Maze maze)
 	{
 		// Creating boolean array to mark cells visited or unvisited
@@ -239,6 +273,40 @@ public class BiDirectionalBFSSolver implements MazeSolver
 	}
 	// end of normalMaze()
 
+	/** 
+     * Bi-Directional BFS Solver of input maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * Bi-Directional BFS Solver
+     * ALGORITHM hexMaze ( maze )
+     * Perform a Bi-Directional BFS solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitorStart = {}
+     * 2: cellVisitorExit = {}
+     * 
+     * // set the start and end cell to maze entrance and exit respectively,
+     *    push its to stack and mark its as visited cell
+     * 3: startCell = maze.entrance
+     * 4: endCell = maze.exit
+     * 5: startPath.add(startCell)
+     * 6: endPath.add(endCell)
+     * 
+     * // while startCell and endCell does not meet
+     * 7: while(startCell does not meet with endCell)
+     * 8:   check every possible neighbour of startCell and endCell,
+     *      then move both of the cells randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void hexMaze(Maze maze)
 	{
 		// Creating boolean array to mark cells visited or unvisited
@@ -515,6 +583,44 @@ public class BiDirectionalBFSSolver implements MazeSolver
 	}
 	// end of hexMaze()
 
+	/** 
+     * Bi-Directional BFS Solver of input maze.
+     * 
+     * Tunnel Maze Bi-Directional BFS Solver condition when hit the tunnel cell:
+     *   -->If the startCell or endCell hit a tunnel when move randomly, it will directly goes to
+     *      the other end of the tunnel and continue solving the maze from that point.
+     *      
+     * ******************************************************************************************
+     * 
+     * Bi-Directional BFS Solver
+     * ALGORITHM tunnelMaze ( maze )
+     * Perform a Bi-Directional BFS solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitorStart = {}
+     * 2: cellVisitorExit = {}
+     * 
+     * // set the start and end cell to maze entrance and exit respectively,
+     *    push its to stack and mark its as visited cell
+     * 3: startCell = maze.entrance
+     * 4: endCell = maze.exit
+     * 5: startPath.add(startCell)
+     * 6: endPath.add(endCell)
+     * 
+     * // while startCell and endCell does not meet
+     * 7: while(startCell does not meet with endCell)
+     * 8:   check every possible neighbour of startCell and endCell,
+     *      then move both of the cells randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void tunnelMaze(Maze maze)
 	{
 		// Creating boolean array to mark cells visited or unvisited
@@ -625,7 +731,7 @@ public class BiDirectionalBFSSolver implements MazeSolver
 			 */
 
 			/*
-			 * check for possible neighbour from exit point and mark them as //
+			 * check for possible neighbour from exit point and mark them as
 			 * visited.
 			 * 
 			 * if the next neighbour is already marked as visited from the
@@ -707,7 +813,7 @@ public class BiDirectionalBFSSolver implements MazeSolver
 				maze.drawFtPrt(maze.map[endCell.r][endCell.c - 1]);
 			}
 			/*
-			 * end of checking possible neighbour from starting point and
+			 * end of checking possible neighbour from exit point and
 			 * marking as visited
 			 */
 			
