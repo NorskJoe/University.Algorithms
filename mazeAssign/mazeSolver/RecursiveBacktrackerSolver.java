@@ -49,6 +49,35 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 		return step;
 	} // end of cellsExplored()
 
+	/** 
+     * Recursive Backtracker Solver of input maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * Backtracking Solver
+     * ALGORITHM normalMaze ( maze )
+     * Perform a recursive backtracking solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitor = {}
+     * // set the current cell to maze entrance, push it to stack and mark it as visited cell
+     * 2: currentCell = maze.entrance
+     * 3: stack.push(currentCell)
+     * 
+     * // while current cell not reach the exit
+     * 4: while(currentCell is not exit)
+     * 7:   check every possible neighbour of currentCell,
+     *      then move randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void normalMaze(Maze maze)
 	{
 		// Creating boolean array to mark cells visited or unvisited
@@ -108,6 +137,9 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 				}
 			}
 
+			System.out.println(availableNeighbours);
+			System.out.println("current row, col: " + currentCell.r + " " + currentCell.c);
+
 			/*
 			 * If none of the neighbours are viable next cells then move back to
 			 * the last cell visited
@@ -118,8 +150,15 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 			}
 			else
 			{
+				// step++;
 				Random rand = new Random();
 				String direction = availableNeighbours.get(rand.nextInt(availableNeighbours.size()));
+
+				System.out.println("NORTH WALL PRESENT? " + currentCell.wall[Maze.NORTH].present);
+				System.out.println("EAST WALL PRESENT? " + currentCell.wall[Maze.EAST].present);
+				System.out.println("SOUTH WALL PRESENT? " + currentCell.wall[Maze.SOUTH].present);
+				System.out.println("WEST WALL PRESENT? " + currentCell.wall[Maze.WEST].present);
+				System.out.println("Chosen cell position is: " + direction);
 
 				if (direction.equals("NORTH"))
 				{
@@ -155,6 +194,35 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 		maze.drawFtPrt(currentCell);
 	} // end of normalMaze()
 
+	/** 
+     * Recursive Backtracker Solver of input maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * Backtracking Solver
+     * ALGORITHM hexMaze ( maze )
+     * Perform a recursive backtracking solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitor = {}
+     * // set the current cell to maze entrance, push it to stack and mark it as visited cell
+     * 2: currentCell = maze.entrance
+     * 3: stack.push(currentCell)
+     * 
+     * // while current cell not reach the exit
+     * 4: while(currentCell is not exit)
+     * 7:   check every possible neighbour of currentCell,
+     *      then move randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void hexMaze(Maze maze)
 	{
 		Cell currentCell = null;
@@ -287,6 +355,39 @@ public class RecursiveBacktrackerSolver implements MazeSolver
 
 	} // end of hexMaze()
 
+	/** 
+     * Recursive Backtracker Solver of input maze.
+     * 
+     * Tunnel Maze recursive solver condition when hit the tunnel cell:
+     *   -->If the currentCell hit a tunnel when move randomly, it will directly goes to
+     *      the other end of the tunnel and continue solving the maze from that point.
+     * 
+     * ******************************************************************************************
+     * 
+     * Backtracking Solver
+     * ALGORITHM tunnelMaze ( maze )
+     * Perform a recursive backtracking solver of a maze.
+     * Input: Maze maze.
+     * OUTPUT : a path lead from starting point to exit point
+     * 
+     * 1: cellVisitor = {}
+     * // set the current cell to maze entrance, push it to stack and mark it as visited cell
+     * 2: currentCell = maze.entrance
+     * 3: stack.push(currentCell)
+     * 
+     * // while current cell not reach the exit
+     * 4: while(currentCell is not exit)
+     * 7:   check every possible neighbour of currentCell,
+     *      then move randomly to one of it neigbours.
+     *    end while
+     *    
+     *    // draw the recursive movement
+     *    maze.drawFtPrt(currentCell);
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input Maze.
+     */
 	private void tunnelMaze(Maze maze)
 	{
 		Cell currentCell = null;
