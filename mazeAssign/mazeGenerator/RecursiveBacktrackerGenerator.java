@@ -51,9 +51,16 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 
-		/*
+		/**
 		 * Main body of function. 
+		 * ******************************************************************
+		 * INPUT: Maze[][]
+		 * OUTPUT: A Perfectly generated maze
 		 * 
+		 * normalMaze(maze)
+		 * First assign currentCell to maze entrance and push to stack.
+		 * 
+		 * while(stack is not empty)
 		 * (1)Choose a random neighbour of the current cell that is not
 		 * 		visisted
 		 * (2)Push the current cell to the top of the stack
@@ -61,8 +68,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 		 * (4)Update the neighbours list for the current cell
 		 * (5)If the neighbours list is empty, backtrack to the previous
 		 * 		cell by popping the stack and check if it has any available neighbours
-		 * (6)Continue this process until the stack is empty, indicating that
-		 * 		all cells have been marked as visisted
+		 * 	end while
 		 */
 		do
 		{
@@ -167,9 +173,16 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 		currentCell = maze.entrance;
 		stack.push(currentCell);
 
-		/*
+		/**
 		 * Main body of function. 
+		 * ******************************************************************
+		 * INPUT: Maze[][]
+		 * OUTPUT: A Perfectly generated maze
 		 * 
+		 * normalMaze(maze)
+		 * First assign currentCell to maze entrance and push to stack.
+		 * 
+		 * while(stack is not empty)
 		 * (1)Choose a random neighbour of the current cell that is not
 		 * 		visisted
 		 * (2)Push the current cell to the top of the stack
@@ -177,8 +190,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 		 * (4)Update the neighbours list for the current cell
 		 * (5)If the neighbours list is empty, backtrack to the previous
 		 * 		cell by popping the stack and check if it has any available neighbours
-		 * (6)Continue this process until the stack is empty, indicating that
-		 * 		all cells have been marked as visisted
+		 * 	end while
 		 */
 		do
 		{
@@ -316,18 +328,26 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator
 		stack.push(currentCell);
 		
 		
-		/*
+		/**
 		 * Main body of function. 
+		 * ******************************************************************
+		 * INPUT: Maze[][]
+		 * OUTPUT: A Perfectly generated maze
 		 * 
+		 * normalMaze(maze)
+		 * First assign currentCell to maze entrance and push to stack.
+		 * 
+		 * while(stack is not empty)
 		 * (1)Choose a random neighbour of the current cell that is not
 		 * 		visisted
 		 * (2)Push the current cell to the top of the stack
 		 * (3)Move to the neighbour, carving a path, and mark is as visisted
 		 * (4)Update the neighbours list for the current cell
+		 * 		If the currentCel has a tunnel nieghbour, automatically move
+		 * 		to the other end of the tunnel.
 		 * (5)If the neighbours list is empty, backtrack to the previous
 		 * 		cell by popping the stack and check if it has any available neighbours
-		 * (6)Continue this process until the stack is empty, indicating that
-		 * 		all cells have been marked as visisted
+		 * 	end while
 		 */
 		do
 		{

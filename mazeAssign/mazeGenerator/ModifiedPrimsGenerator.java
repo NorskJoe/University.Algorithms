@@ -67,8 +67,12 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			frontier.add(startCell.neigh[Maze.WEST]);
 		}
 		
-		/*
+		/**
 		 * Main body of function.
+		 * *******************************************************************
+		 * 
+		 * INPUT: Maze[][], List<Cells> frontier, List<Cells> passage
+		 * OUTPUT: Perfectly generated maze
 		 * 
 		 * (1)Randomly select a cell from the frontier set of cells, and
 		 * 		remove it from the frontier set
@@ -219,8 +223,12 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			frontier.add(startCell.neigh[Maze.WEST]);
 		}
 		
-		/*
+		/**
 		 * Main body of function.
+		 * *******************************************************************
+		 * 
+		 * INPUT: Maze[][], List<Cells> frontier, List<Cells> passage
+		 * OUTPUT: Perfectly generated maze
 		 * 
 		 * (1)Randomly select a cell from the frontier set of cells, and
 		 * 		remove it from the frontier set
