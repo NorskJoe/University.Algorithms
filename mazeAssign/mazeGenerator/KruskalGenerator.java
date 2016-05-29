@@ -82,8 +82,12 @@ public class KruskalGenerator implements MazeGenerator {
 			}
 			sets.add(tempSet);
 		}
-		/*
+		/**
 		 * Main body of algorithm
+		 * ******************************************************************
+		 * 
+		 * INPUT: Maze[][], List<Edges>, List<Trees>, Cell currCell
+		 * OUTPUT: A perfectly generated maze
 		 * 
 		 * (1) Randomly choose an edge (two adjacent pairs)
 		 * (2) If the edge will join two disjoint trees, merge the trees
@@ -193,8 +197,12 @@ public class KruskalGenerator implements MazeGenerator {
 			sets.add(tempSet);
 				
 		}
-		/*
+		/**
 		 * Main body of algorithm
+		 * ******************************************************************
+		 * 
+		 * INPUT: Maze[][], List<Edges>, List<Trees>, Cell currCell
+		 * OUTPUT: A perfectly generated maze
 		 * 
 		 * (1) Randomly choose an edge (two adjacent pairs)
 		 * (2) If the edge will join two disjoint trees, merge the trees
@@ -313,13 +321,19 @@ public class KruskalGenerator implements MazeGenerator {
 			sets.add(tempSet);
 		}
 		System.out.println(edges.size());
-		/*
+		/**
 		 * Main body of algorithm
+		 * ******************************************************************
+		 * 
+		 * INPUT: Maze[][], List<Edges>, List<Trees>, Cell currCell
+		 * OUTPUT: A perfectly generated maze
 		 * 
 		 * (1) Randomly choose an edge (two adjacent pairs)
 		 * (2) If the edge will join two disjoint trees, merge the trees
-		 * (3) Carve a path between the two adjacent cells from the edge
+		 * (3) Carve a path between the two adjacent cells picked from the edge
 		 * (4) Repeat these steps until there are no edges left
+		 * 		If the edge picked out contained a tunnel, force 
+		 * 		the algorithm to go through the tunnel
 		 */
 		while(!edges.isEmpty())
 		{
@@ -406,6 +420,7 @@ public class KruskalGenerator implements MazeGenerator {
 		 * Check to see if the two sets are connected
 		 */
 		public boolean connected(Tree tree) {
+			// Will return true if the two trees share a root
 			return this.root() == tree.root();
 		}
 		
